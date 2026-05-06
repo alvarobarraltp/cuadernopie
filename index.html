@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduMax Pro - Minimal</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+
+    <!-- Top App Bar -->
+    <header class="top-bar">
+        <button id="id-home" class="btn-icon-top">
+            <i class="ph ph-house"></i>
+        </button>
+        <div class="logo">
+            <span id="current-course-name">Gestion PIE</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+            <select id="course-selector-top" class="course-select-minimal hidden">
+                <option value="" disabled>Cambiar Curso...</option>
+                <option value="1°A">1°A</option>
+                <option value="1°B">1°B</option>
+            </select>
+            <button id="btn-add-global" class="btn-icon-top hidden">
+                <i class="ph ph-user-plus"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <!-- HOME VIEW (Course Selection) -->
+        <section id="view-home" class="view active">
+            <div class="center-content">
+                <div class="massive-grid">
+                    <div class="course-card" data-target="1°A">
+                        <div class="card-icon"><i class="ph ph-number-square-one"></i></div>
+                        <span class="card-label">1° A</span>
+                    </div>
+                    <div class="course-card" data-target="1°B">
+                        <div class="card-icon"><i class="ph ph-letter-b"></i></div>
+                        <span class="card-label">1° B</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COURSE VIEW -->
+        <section id="view-course" class="view hidden">
+            
+            <!-- SUBVIEW: Dashboard (Los 3 Iconos) -->
+            <div id="subview-menu" class="subview active">
+                <div class="center-content">
+                    <div class="massive-grid">
+                        <div class="course-card nav-launcher" data-launch="subview-students">
+                            <div class="card-icon"><i class="ph ph-users-three"></i></div>
+                            <span class="card-label">Estudiantes</span>
+                        </div>
+                        <div class="course-card nav-launcher" data-launch="subview-aula">
+                            <div class="card-icon"><i class="ph ph-chalkboard-teacher"></i></div>
+                            <span class="card-label">Aula de Recursos</span>
+                        </div>
+                        <div class="course-card nav-launcher" data-launch="subview-observations">
+                            <div class="card-icon"><i class="ph ph-notebook"></i></div>
+                            <span class="card-label">Observaciones</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mini Nav (Visible cuando se entra a una sección) -->
+            <div class="course-sub-nav hidden" id="course-mini-nav">
+                <button class="sub-nav-btn" data-subview="subview-students" title="Estudiantes">
+                    <i class="ph ph-users"></i>
+                </button>
+                <button class="sub-nav-btn" data-subview="subview-aula" title="Aula de Recursos">
+                    <i class="ph ph-chalkboard-teacher"></i>
+                </button>
+                <button class="sub-nav-btn" data-subview="subview-observations" title="Observaciones">
+                    <i class="ph ph-notebook"></i>
+                </button>
+            </div>
+
+            <!-- SUBVIEW: Students -->
+            <div id="subview-students" class="subview active">
+                <div class="search-container">
+                    <i class="ph ph-magnifying-glass"></i>
+                    <input type="text" id="search-input" placeholder="Buscar estudiante...">
+                </div>
+                <div class="student-grid" id="student-grid"></div>
+            </div>
+
+            <!-- SUBVIEW: Aula de Recursos -->
+            <div id="subview-aula" class="subview hidden">
+                <div class="aula-form-card">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Registrar Actividad Aula de Recursos</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="aula-fecha">
+                        </div>
+                        <div class="form-group">
+                            <label>Actividad Trabajada</label>
+                            <select id="aula-preset">
+                                <option value="">Seleccionar actividad...</option>
+                                <option value="Reforzamiento de Lectura">Reforzamiento de Lectura</option>
+                                <option value="Resolución de Problemas Matemáticos">Resolución de Problemas Matemáticos</option>
+                                <option value="Apoyo en Escritura Creativa">Apoyo en Escritura Creativa</option>
+                                <option value="Desarrollo de Habilidades Sociales">Desarrollo de Habilidades Sociales</option>
+                                <option value="Estimulación Cognitiva">Estimulación Cognitiva</option>
+                                <option value="Apoyo en Evaluación Diferenciada">Apoyo en Evaluación Diferenciada</option>
+                                <option value="Trabajo en Funciones Ejecutivas">Trabajo en Funciones Ejecutivas</option>
+                                <option value="Adaptación de Material de Estudio">Adaptación de Material de Estudio</option>
+                                <option value="Coordinación con Docente de Aula">Coordinación con Docente de Aula</option>
+                                <option value="Taller de Autonomía y Hábitos">Taller de Autonomía y Hábitos</option>
+                                <option value="custom">-- + Agregar nueva actividad --</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Descripción / Detalle de la Clase</label>
+                            <textarea id="aula-detalle" rows="3" placeholder="Selecciona una opción arriba o escribe el detalle de lo trabajado..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Estudiantes Participantes</label>
+                            <div class="aula-student-selector" id="aula-student-selector">
+                                <!-- Generado por JS -->
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <input type="hidden" id="aula-id">
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="button" class="btn btn-primary" id="btn-save-aula" style="flex: 2;">
+                                    <i class="ph ph-floppy-disk"></i> <span id="aula-btn-text">Guardar en Libro de Clases</span>
+                                </button>
+                                <button type="button" class="btn btn-secondary hidden" id="btn-cancel-aula-edit" style="flex: 1;">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">Libro de Registros</h3>
+                    <div class="aula-log-list" id="aula-log-list">
+                        <!-- Registros renderizados aquí -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBVIEW: Observaciones -->
+            <div id="subview-observations" class="subview hidden">
+                <div class="aula-form-card">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">Registrar Observación / Incidente</h3>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Estudiante</label>
+                            <select id="obs-student-select">
+                                <option value="">Seleccionar estudiante...</option>
+                                <!-- Generado por JS -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" id="obs-quick-date">
+                        </div>
+                        <div class="form-group">
+                            <label>Contexto / Lugar</label>
+                            <select id="obs-quick-subject">
+                                <option value="">Seleccionar...</option>
+                                <option value="Sala de clases">Sala de clases</option>
+                                <option value="Aula de Recursos">Aula de Recursos</option>
+                                <option value="Patio">Patio</option>
+                                <option value="Recreo">Recreo</option>
+                                <option value="Comedor">Comedor</option>
+                                <option value="otro">Otro (especificar)...</option>
+                            </select>
+                        </div>
+                        <div class="form-group hidden" id="obs-subject-other-container">
+                            <label>Especificar Contexto</label>
+                            <input type="text" id="obs-quick-subject-other" placeholder="Escribe el lugar o asignatura...">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Tipo de Situación</label>
+                            <select id="obs-quick-preset">
+                                <option value="">Seleccionar una opción...</option>
+                                <option value="Participación destacada en clase">Participación destacada en clase</option>
+                                <option value="Mejora significativa en rendimiento">Mejora significativa en rendimiento</option>
+                                <option value="Logro de objetivos de aprendizaje">Logro de objetivos de aprendizaje</option>
+                                <option value="Conducta disruptiva o falta de atención">Conducta disruptiva o falta de atención</option>
+                                <option value="Dificultad en la comprensión de instrucciones">Dificultad en la comprensión de instrucciones</option>
+                                <option value="Trabajo colaborativo exitoso">Trabajo colaborativo exitoso</option>
+                                <option value="Necesidad de apoyo adicional en la tarea">Necesidad de apoyo adicional en la tarea</option>
+                                <option value="Avance en habilidades socioemocionales">Avance en habilidades socioemocionales</option>
+                                <option value="Inasistencia o atraso reiterado">Inasistencia o atraso reiterado</option>
+                                <option value="Cumplimiento responsable de deberes escolares">Cumplimiento responsable de deberes escolares</option>
+                                <option value="otro">Otro (especificar abajo)...</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Detalle Adicional</label>
+                            <textarea id="obs-quick-report" rows="3" placeholder="Describe el reporte o añade detalle..."></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <button type="button" class="btn btn-secondary" id="btn-save-obs-quick" style="width: 100%;">
+                                <i class="ph ph-floppy-disk"></i> Guardar en Bitácora
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem;">Registros Recientes</h3>
+                    <div class="observations-list" id="course-obs-list">
+                        <!-- Historial reciente -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Edit/Add (Student Details) -->
+    <div class="modal-overlay" id="student-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <i class="ph ph-user-circle" style="font-size: 2.5rem; color: var(--primary);"></i>
+                    <h2 id="modal-title" style="margin:0;">Ficha Estudiante</h2>
+                </div>
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <button type="button" class="btn-history-toggle" id="btn-toggle-history" title="Ver Historial de Reportes">
+                        <i class="ph ph-clock-counter-clockwise"></i> Historial
+                    </button>
+                    <button class="close-modal" id="btn-close-modal"><i class="ph ph-x"></i></button>
+                </div>
+            </div>
+            
+            <div class="modal-layout-container">
+                <div class="modal-layout">
+                <!-- Side Tabs -->
+                <nav class="modal-tabs">
+                    <button type="button" class="tab-btn active" data-tab="tab-basico" title="Antecedentes Básicos">
+                        <i class="ph ph-user-list"></i>
+                    </button>
+                    <button type="button" class="tab-btn" data-tab="tab-diag" title="Diagnóstico PIE">
+                        <i class="ph ph-brain"></i>
+                    </button>
+                    <button type="button" class="tab-btn" data-tab="tab-eval" title="Evaluación Profesional">
+                        <i class="ph ph-stethoscope"></i>
+                    </button>
+                    <button type="button" class="tab-btn" data-tab="tab-hist" title="Historial y Notas">
+                        <i class="ph ph-clock-counter-clockwise"></i>
+                    </button>
+                </nav>
+
+                <!-- Tab Contents -->
+                <div class="modal-body">
+                    <form id="student-form">
+                        <input type="hidden" id="form-id">
+                        
+                        <!-- TAB 1: Básico -->
+                        <div id="tab-basico" class="tab-content active">
+                            <div class="section-title"><i class="ph ph-user-list"></i> Antecedentes Básicos</div>
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label>Nombre Completo</label>
+                                    <input type="text" id="form-nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>RUT</label>
+                                    <input type="text" id="form-rut" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Curso</label>
+                                    <select id="form-curso">
+                                        <option value="1°A">1°A</option>
+                                        <option value="1°B">1°B</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Fecha Nacimiento</label>
+                                    <input type="text" id="form-fnac">
+                                </div>
+                                <div class="form-group">
+                                    <label>Situación</label>
+                                    <input type="text" id="form-situacion">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 2: Diagnóstico -->
+                        <div id="tab-diag" class="tab-content hidden">
+                            <div class="section-title"><i class="ph ph-brain"></i> Diagnóstico PIE</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Tipo NEE</label>
+                                    <select id="form-nee">
+                                        <option value="NEEP">NEEP</option>
+                                        <option value="NEET">NEET</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Diagnóstico Específico</label>
+                                    <input type="text" id="form-diag">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Fecha Autorización</label>
+                                    <input type="text" id="form-auth">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 3: Evaluación -->
+                        <div id="tab-eval" class="tab-content hidden">
+                            <div class="section-title"><i class="ph ph-stethoscope"></i> Evaluación Profesional</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Fecha Evaluación</label>
+                                    <input type="text" id="form-ed-ev">
+                                </div>
+                                <div class="form-group">
+                                    <label>Fecha Reevaluación</label>
+                                    <input type="text" id="form-ed-rev">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Profesional a Cargo</label>
+                                    <input type="text" id="form-ed-prof">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- TAB 4: Historial -->
+                        <div id="tab-hist" class="tab-content hidden">
+                            <div class="section-title"><i class="ph ph-files"></i> Observaciones Generales</div>
+                            <div class="form-group full-width">
+                                <textarea id="form-obs" rows="2" placeholder="Notas adicionales permanentes..."></textarea>
+                            </div>
+
+                            <div class="section-title" style="margin-top: 1.5rem;"><i class="ph ph-clock-counter-clockwise"></i> Historial Integrado (Bitácora + Aula de Recursos)</div>
+                            
+                            <div class="form-group full-width" style="margin-top: 1rem;">
+                                <div class="observations-list" id="obs-list">
+                                    <!-- Cargado por JS (Bitácora + Aula) -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                
+                <!-- Side Drawer for History -->
+                <div class="modal-drawer" id="modal-drawer">
+                    <div class="drawer-header">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ph ph-clock-counter-clockwise" style="color: var(--primary);"></i>
+                            <h3 style="margin:0; font-size: 1rem;">Historial Rápido</h3>
+                        </div>
+                        <button type="button" id="btn-close-drawer" style="background:none; border:none; cursor:pointer; font-size: 1.25rem;"><i class="ph ph-x"></i></button>
+                    </div>
+                    <div class="drawer-body">
+                        <div class="observations-list" id="drawer-obs-list"></div>
+                    </div>
+                </div>
+            </div> <!-- End modal-layout -->
+        </div> <!-- End modal-layout-container -->
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btn-cancel-modal">Cerrar</button>
+                <button class="btn btn-primary" id="btn-save-modal"><i class="ph ph-floppy-disk"></i> Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
