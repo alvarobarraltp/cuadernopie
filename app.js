@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mainHeader = document.getElementById('main-header');
 
     btnLogin.addEventListener('click', () => {
-        const pass = loginPass.value;
+        const pass = loginPass.value.toUpperCase();
         if (pass === 'PIE2026') {
             viewLogin.classList.add('hidden');
             viewLogin.classList.remove('active');
