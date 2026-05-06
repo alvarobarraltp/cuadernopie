@@ -4,9 +4,35 @@ document.addEventListener('DOMContentLoaded', () => {
     let searchQuery = '';
 
     // Views
+    const viewLogin = document.getElementById('view-login');
     const viewHome = document.getElementById('view-home');
     const viewCourse = document.getElementById('view-course');
     const studentGrid = document.getElementById('student-grid');
+    
+    // Login
+    const loginPass = document.getElementById('login-pass');
+    const btnLogin = document.getElementById('btn-login');
+    const loginError = document.getElementById('login-error');
+    const mainHeader = document.getElementById('main-header');
+
+    btnLogin.addEventListener('click', () => {
+        const pass = loginPass.value;
+        if (pass === 'PIE2026') {
+            viewLogin.classList.add('hidden');
+            viewLogin.classList.remove('active');
+            viewHome.classList.remove('hidden');
+            viewHome.classList.add('active');
+            mainHeader.classList.remove('hidden');
+        } else {
+            loginError.classList.remove('hidden');
+            loginPass.value = '';
+            loginPass.focus();
+        }
+    });
+
+    loginPass.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') btnLogin.click();
+    });
     
     // Top Bar Controls
     const btnHome = document.getElementById('id-home');
